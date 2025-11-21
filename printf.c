@@ -22,8 +22,14 @@ int _printf(const char *format, ...)
 			format++;
 			if (*format == '\0')
 				return (-1);
-			if (*format == 'b')
-				count += print_binary(va_arg(args, unsigned int));
+			if (*format == 'u')
+				count += print_unsigned(va_arg(args, unsigned int));
+			else if (*format == 'o')
+				count += _octal(va_arg(args, unsigned int));
+			else if (*format == 'x')
+				count += print_hex(va_arg(args, unsigned int), 0);
+			else if (*format == 'X')
+				count += print_hex(va_arg(args, unsigned int), 1);
 			else
 			{
 				count += _putchar('%');

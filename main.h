@@ -13,5 +13,4 @@ int print_unsigned(unsigned int n);
 int _octal(unsigned int n);
 int print_hex(unsigned int n, int uppercase);
 int print_binary(unsigned int n);
-
 #endif
