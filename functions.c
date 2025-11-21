@@ -50,3 +50,19 @@ count += print_number(num / 10);
 count += _putchar((num % 10) + '0');
 return (count);
 }
+/**
+ * print_binary - Prints an unsigned integer in binary
+ * @n: Unsigned integer to print
+ *
+ * Return: Number of characters printed
+ */
+int print_binary(unsigned int n)
+{
+	int count = 0;
+
+	if (n / 2)
+		count += print_binary(n / 2);
+	count += _putchar((n % 2) + '0');
+	return (count);
+}
+
