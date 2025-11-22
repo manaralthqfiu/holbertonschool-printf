@@ -2,59 +2,76 @@
 #include <unistd.h>
 
 /**
- * _putchar - writes a character to stdout
- * @c: The character to print
+ * _putchar - buffered character output (1024 bytes buffer)
+ * @c: character to print (if c == -1, flush buffer)
  *
- * Return: On success 1, on error -1
+ * Return: 1 always
  */
 int _putchar(char c)
 {
-	return (write(1, &c, 1));
+    static char buffer[1024];
+    static int index;
+    int printed = 1;
+
+    if (c == -1 || index == 1024)
+    {
+        if (index > 0)
+            write(1, buffer, index);
+        index = 0;
+    }
+
+    if (c != -1)
+        buffer[index++] = c;
+
+    return (printed);
 }
+
 /**
- * print_unsigned - prints an unsigned integer in decimal
- * @n: The unsigned integer to print
+ * print_string - Prints a string
+ * @str: String to print
  *
  * Return: Number of characters printed
  */
-int print_unsigned(unsigned int n)
+int print_string(char *str)
 {
-	int count = 0;
+    int count = 0;
+    int i = 0;
 
-	if (n / 10)
-		count += print_unsigned(n / 10);
-	count += _putchar((n % 10) + '0');
-	return (count);
+    if (!str)
+        str = "(null)";
+
+    while (str[i])
+        count += _putchar(str[i++]);
+
+    return (count);
 }
+
 /**
- * _octal - prints an unsigned integer in octal
- * @n: The unsigned integer to print
+ * print_number - Prints an integer
+ * @n: Integer to print
  *
  * Return: Number of characters printed
  */
-int _octal(unsigned int n)
+int print_number(int n)
 {
-	int count = 0;
+    int count = 0;
+    unsigned int num;
 
-	if (n / 8)
-		count += _octal(n / 8);
-	count += _putchar((n % 8) + '0');
-	return (count);
-}
-/**
- * print_hex - prints an unsigned integer in hexadecimal
- * @n: The unsigned integer to print
- * @uppercase: If non-zero, use uppercase letters; otherwise lowercase
- *
- * Return: Number of characters printed
- */
-int print_hex(unsigned int n, int uppercase)
-{
-	int count = 0;
-	char *digits = uppercase ? "0123456789ABCDEF" : "0123456789abcdef";
+    if (n < 0)
+    {
+        count += _putchar('-');
+        num = -n;
+    }
+    else
+    {
+        num = n;
+    }
 
-	if (n / 16)
-		count += print_hex(n / 16, uppercase);
-	count += _putchar(digits[n % 16]);
-	return (count);
+    if (num / 10)
+        count += print_number(num / 10);
+
+    count += _putchar((num % 10) + '0');
+
+    return (count);
 }
+
